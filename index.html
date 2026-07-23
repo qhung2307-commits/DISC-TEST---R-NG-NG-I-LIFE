@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>DISC TEST - RẠNG NGỜI LIFE</title>
+    <meta name="description" content="Công cụ đánh giá tính cách DISC chuyên sâu dành cho tuyển dụng và quản trềEnhân sự">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css?v=20260723">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- No external PDF library needed  Euses native browser print -->
+</head>
+<body>
+    <!-- ============================================ -->
+    <!-- SCREEN 0: MODE SELECTION (Entry Point)       -->
+    <!-- ============================================ -->
+    <div id="screen-mode" class="screen active">
+        <div class="container">
+            <header class="app-header">
+                <div class="logo">
+                    <span class="logo-text">DISC TEST</span>
+                    <span class="logo-sub">RẠNG NGỜI LIFE</span>
+                </div>
+                <div class="header-actions">
+                    <button id="btn-lang-toggle" class="btn-icon" title="Switch language" data-i18n-title="btn_lang">
+                        <span id="lang-label">EN</span>
+                    </button>
+                    <button id="btn-theme-toggle" class="btn-icon" title="Chuyển đổi giao diện" data-i18n-title="btn_theme">
+                        <span id="theme-icon">🌙</span>
+                    </button>
+                </div>
+            </header>
+
+            <main class="hero">
+                <div class="hero-content">
+                    <h1 data-i18n="hero_title">Khám Phá Tính Cách DISC</h1>
+                    <p class="hero-subtitle" data-i18n="hero_subtitle">Công cụ đánh giá hành vi chuyên sâu dành cho quản trềEnhân sự</p>
+                    
+                    <div class="disc-intro-cards">
+                        <div class="disc-card disc-d">
+                            <span class="disc-letter">D</span>
+                            <span class="disc-name" data-i18n="disc_d">Quyết đoán</span>
+                        </div>
+                        <div class="disc-card disc-i">
+                            <span class="disc-letter">I</span>
+                            <span class="disc-name" data-i18n="disc_i">Ảnh hưởng</span>
+                        </div>
+                        <div class="disc-card disc-s">
+                            <span class="disc-letter">S</span>
+                            <span class="disc-name" data-i18n="disc_s">Kiên định</span>
+                        </div>
+                        <div class="disc-card disc-c">
+                            <span class="disc-letter">C</span>
+                            <span class="disc-name" data-i18n="disc_c">Tuân thủ</span>
+                        </div>
+                    </div>
+
+                    <!-- DISC explanation accordion -->
+                    <details class="disc-explainer">
+                        <summary data-i18n="what_is_disc">DISC là gì?</summary>
+                        <div class="explainer-content">
+                            <p data-i18n="disc_explain_text">DISC là mô hình đánh giá hành vi được phát triển bởi nhà tâm lý học William Moulton Marston. Mô hình phân loại hành vi con người thành 4 nhóm chính: <strong>D</strong> (Dominance - Quyết đoán), <strong>I</strong> (Influence - Ảnh hưởng), <strong>S</strong> (Steadiness - Kiên định), <strong>C</strong> (Compliance - Tuân thủ). Mỗi người đều sềEhữu cả 4 yếu tềEnhưng sẽ có 1-2 nhóm trội hơn, tạo nên phong cách hành vi riêng biệt.</p>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="mode-selection">
+                    <h2 data-i18n="select_mode">Chọn vai trò của bạn</h2>
+                    <div class="mode-cards">
+                        <button class="mode-card" id="btn-mode-taker" data-mode="taker">
+                            <div class="mode-icon">📝</div>
+                            <h3 data-i18n="mode_taker">Làm bài đánh giá</h3>
+                            <p data-i18n="mode_taker_desc">Dành cho ứng viên / nhân viên được yêu cầu thực hiện bài test DISC</p>
+                        </button>
+                        <button class="mode-card" id="btn-mode-hr" data-mode="hr">
+                            <div class="mode-icon">📊</div>
+                            <h3 data-i18n="mode_hr">Quản lý & Báo cáo</h3>
+                            <p data-i18n="mode_hr_desc">Dành cho HR / Ban Giám đốc xem kết quả, báo cáo chi tiết và lịch sử đánh giá</p>
+                        </button>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- SCREEN 0.5: HR PIN / PASSWORD                -->
+    <!-- ============================================ -->
+    <div id="screen-hr-auth" class="screen">
+        <div class="container compact">
+            <button class="btn-back" data-target="screen-mode">
+                <span>←</span> <span data-i18n="btn_back">Quay lại</span>
+            </button>
+            <div class="auth-card glass-card">
+                <div class="auth-icon">🔒</div>
+                <h2 data-i18n="hr_auth_title">Xác thực quyền truy cập</h2>
+                <p data-i18n="hr_auth_desc">Nhập mã PIN quản lý đềEtruy cập báo cáo và lịch sử đánh giá</p>
+                <div class="pin-input-group">
+                    <input type="password" id="input-hr-pin" class="pin-input" maxlength="6" placeholder="••••••" autocomplete="off">
+                    <p class="pin-hint" data-i18n="pin_hint">Mã PIN mặc định: 123456 (thay đổi trong Cài đặt)</p>
+                </div>
+                <button id="btn-hr-login" class="btn btn-primary btn-lg" data-i18n="btn_login">Đăng nhập</button>
+                <p id="hr-auth-error" class="error-text hidden" data-i18n="pin_error">Mã PIN không chính xác</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- SCREEN 1: INFO INPUT FORM                    -->
+    <!-- ============================================ -->
+    <div id="screen-info" class="screen">
+        <div class="container compact">
+            <button class="btn-back" data-target="screen-mode">
+                <span>←</span> <span data-i18n="btn_back">Quay lại</span>
+            </button>
+            <div class="glass-card form-card">
+                <h2 data-i18n="info_title">Thông tin người đánh giá</h2>
+                <p class="form-subtitle" data-i18n="info_subtitle">Vui lòng điền đầy đủ thông tin trước khi bắt đầu</p>
+                
+                <form id="info-form" class="info-form">
+                    <div class="form-group">
+                        <label for="input-name" data-i18n="label_name">HềEvà tên <span class="required">*</span></label>
+                        <input type="text" id="input-name" required placeholder="NguyềE Văn A" autocomplete="name">
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="input-target-type" data-i18n="label_target_type">Mục đích đánh giá <span class="required">*</span></label>
+                            <select id="input-target-type" required>
+                                <option value="candidate" data-i18n="target_candidate">Tuyển dụng (Ứng viên)</option>
+                                <option value="employee" data-i18n="target_employee">Nội bềE(Nhân sự đang làm việc)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="input-gender" data-i18n="label_gender">Giới tính</label>
+                            <select id="input-gender">
+                                <option value="">-- Chọn --</option>
+                                <option value="male">Nam</option>
+                                <option value="female">Nữ</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="input-dob" data-i18n="label_dob">Năm sinh</label>
+                            <input type="number" id="input-dob" min="1950" max="2010" placeholder="VD: 1995">
+                        </div>
+                        <div class="form-group">
+                            <label for="input-experience" data-i18n="label_experience">Kinh nghiệm (năm)</label>
+                            <input type="number" id="input-experience" min="0" max="50" step="0.5" placeholder="VD: 2">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="input-industry" data-i18n="label_industry">Ngành nghềE<span class="required">*</span></label>
+                        <select id="input-industry" required>
+                            <option value="" data-i18n="select_placeholder">-- Chọn ngành nghềE--</option>
+                            <option value="dental" data-i18n="industry_dental">Nha khoa / Y tế</option>
+                            <option value="fnb" data-i18n="industry_fnb">F&B (Nhà hàng / Quán cà phê)</option>
+                            <option value="hospitality" data-i18n="industry_hospitality">Lưu trú (Khách sạn / Homestay)</option>
+                            <option value="general" data-i18n="industry_general">Khác / Cơ bản</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="input-position" data-i18n="label_position">VềEtrí công việc <span class="required">*</span></label>
+                        <select id="input-position" required>
+                            <option value="" data-i18n="select_placeholder">-- Chọn vềEtrí --</option>
+                        </select>
+                        <input type="text" id="input-position-custom" class="hidden" placeholder="Nhập vềEtrí công việc...">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="input-department" data-i18n="label_department">Phòng ban / BềEphận</label>
+                        <input type="text" id="input-department" placeholder="VD: Phòng khám ABC">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="input-evaluator" data-i18n="label_evaluator">Người đánh giá (HR/Quản lý)</label>
+                        <input type="text" id="input-evaluator" placeholder="Tên người yêu cầu đánh giá">
+                    </div>
+
+                    <button type="submit" id="btn-start-test" class="btn btn-primary btn-lg btn-full">
+                        <span data-i18n="btn_start">Bắt đầu làm bài</span>
+                        <span class="btn-arrow">←</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- SCREEN 2: QUESTIONNAIRE                      -->
+    <!-- ============================================ -->
+    <div id="screen-test" class="screen">
+        <div class="container compact">
+            <!-- Progress bar -->
+            <div class="test-header">
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div id="progress-fill" class="progress-fill" style="width: 0%"></div>
+                    </div>
+                    <span id="progress-text" class="progress-text">0/28</span>
+                </div>
+                <div class="timer-container">
+                    <svg class="timer-ring" viewBox="0 0 60 60">
+                        <circle class="timer-ring-bg" cx="30" cy="30" r="26"/>
+                        <circle id="timer-ring-progress" class="timer-ring-progress" cx="30" cy="30" r="26"/>
+                    </svg>
+                    <span id="timer-text" class="timer-text">45</span>
+                </div>
+            </div>
+
+            <!-- Question card with swipe support -->
+            <div id="question-container" class="question-container">
+                <div id="question-card" class="question-card glass-card">
+                    <div class="question-badge">
+                        <span id="question-context-badge" class="context-badge"></span>
+                        <span id="question-number" class="question-number">Câu 1/28</span>
+                    </div>
+                    <h3 id="question-text" class="question-text"></h3>
+                    
+                    <div class="selection-guide">
+                        <div class="guide-most">
+                            <span class="guide-icon">👆</span>
+                            <span data-i18n="guide_most">Chọn 1 câu GIỐNG bạn nhất</span>
+                        </div>
+                        <div class="guide-least">
+                            <span class="guide-icon">👇</span>
+                            <span data-i18n="guide_least">Chọn 1 câu ÍT GIỐNG bạn nhất</span>
+                        </div>
+                    </div>
+
+                    <div id="options-container" class="options-container">
+                        <!-- Options rendered dynamically -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Navigation -->
+            <div class="test-nav">
+                <button id="btn-prev-q" class="btn btn-outline" disabled>
+                    <span>←</span> <span data-i18n="btn_prev">Câu trước</span>
+                </button>
+                <button id="btn-next-q" class="btn btn-primary" disabled>
+                    <span data-i18n="btn_next">Câu tiếp</span> <span>→</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- SCREEN 3A: BASIC RESULTS (For Test Takers)   -->
+    <!-- ============================================ -->
+    <div id="screen-result-basic" class="screen">
+        <div class="container compact">
+            <div class="result-header">
+                <div id="confetti-container" class="confetti-container"></div>
+                <h2 data-i18n="result_complete">🎉 Hoàn thành bài đánh giá!</h2>
+                <p data-i18n="result_basic_desc">Dưới đây là tổng quan tính cách DISC của bạn</p>
+            </div>
+
+            <div class="glass-card result-basic-card">
+                <div class="result-name-badge">
+                    <span id="result-basic-name"></span>
+                </div>
+                <div class="result-chart-basic">
+                    <canvas id="chart-basic"></canvas>
+                </div>
+                <div id="result-basic-summary" class="result-basic-summary">
+                    <!-- D-I-S-C bars rendered here -->
+                </div>
+                <div id="result-basic-archetype" class="result-archetype">
+                    <!-- Archetype name shown here -->
+                </div>
+                <p class="result-basic-note" data-i18n="result_basic_note">Kết quả chi tiết đã được gửi đến bềEphận Nhân sự. Cảm ơn bạn đã hoàn thành bài đánh giá!</p>
+            </div>
+
+            <button id="btn-back-home" class="btn btn-outline btn-lg btn-full" data-i18n="btn_back_home">VềEtrang chủ</button>
+        </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- SCREEN 3B: DETAILED REPORT (For HR only)     -->
+    <!-- ============================================ -->
+    <div id="screen-report" class="screen">
+        <div class="container wide">
+            <div class="report-toolbar">
+                <button class="btn-back" data-target="screen-hr-dashboard">
+                    <span>←</span> <span data-i18n="btn_back_dashboard">VềEDashboard</span>
+                </button>
+                <div class="report-actions">
+                    <!-- Expert Analysis is now auto-rendered, button removed -->
+                    <button id="btn-export-full" class="btn btn-primary">
+                        <span>📋</span> <span data-i18n="btn_export_full">Xuất Báo cáo PDF</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Report content (for PDF export) -->
+            <div id="report-content" class="report-content">
+                <div class="report-header-print">
+                    <div class="report-brand">
+                        <img src="assets/logo.png" alt="Rạng Ngời Life Logo" class="report-logo-img" style="max-height: 80px; object-fit: contain; margin-bottom: 10px;">
+                        <span class="report-logo" style="display: none;">DISC TEST - RẠNG NGỜI LIFE</span>
+                    </div>
+                    <h1 class="report-title" data-i18n="report_title">BÁO CÁO PHÁE TÍCH NHÁE SỰ CHUYÊN SÂU</h1>
+                    <p class="report-model">(MÁEHÌNH DISC)</p>
+                    <p class="report-confidential" data-i18n="report_confidential">Bảo mật nội bềE- Dành cho Ban Giám đốc / Trưởng phòng Nhân sự / Quản lý</p>
+                </div>
+
+                <!-- Overview section -->
+                <section id="report-overview" class="report-section">
+                    <h2 class="section-title" data-i18n="report_overview">THÔNG TIN TỔNG QUAN</h2>
+                    <div id="report-overview-content" class="overview-grid"></div>
+                    <div class="report-chart-container">
+                        <canvas id="chart-report"></canvas>
+                        <div class="chart-legend" style="text-align: center; margin-top: 15px; font-size: 0.85rem; color: #666; background: #f8fafc; padding: 10px; border-radius: 8px;">
+                            <strong>* ÁEnghĩa các mức điểm:</strong> 0-14% (Rất thấp) | 15-21% (Thấp) | 22-27% (Trung bình) | 28-34% (Cao) | 35%+ (Rất cao)
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Part 1: Personality Analysis -->
+                <section id="report-part1" class="report-section">
+                    <h2 class="section-title" data-i18n="report_part1_title">PHẦN 1: PHÁE TÍCH CẤU TRÚC TÍNH CÁCH (DỰA TRÊN DỮ LIềE)</h2>
+                    <div id="report-part1-content"></div>
+                </section>
+
+                <!-- Part 2: Job Fit (Rewritten with score) -->
+                <section id="report-part2" class="report-section">
+                    <h2 class="section-title" data-i18n="report_part2_title">PHẦN 2: ĐÁNH GIÁEĐềEPHÁEHỢP VỚI VềETRÁE(JOB FIT)</h2>
+                    <div id="report-part2-content"></div>
+                </section>
+
+                <!-- Part 3: Red Flags -->
+                <section id="report-part3" class="report-section">
+                    <h2 class="section-title" data-i18n="report_part3_title">PHẦN 3: NHẬN DIềE CÁC LềEHỔNG CẢNH BÁO (RED FLAGS)</h2>
+                    <div id="report-part3-content"></div>
+                </section>
+
+                <!-- Part 4: Communication & Teamwork (NEW) -->
+                <section id="report-part4" class="report-section">
+                    <h2 class="section-title" data-i18n="report_part4_title">PHẦN 4: PHONG CÁCH GIAO TIẾP & LÀM VIềE NHÓM</h2>
+                    <div id="report-part4-content"></div>
+                </section>
+
+                <!-- Part 5: Motivators, Fears & Environment (NEW) -->
+                <section id="report-part5" class="report-section">
+                    <h2 class="section-title" data-i18n="report_part5_title_new">PHẦN 5: ĐỘNG LỰC  ENỖI SỢ  EMÔI TRƯỜNG LÁETƯỞNG</h2>
+                    <div id="report-part5-content"></div>
+                </section>
+
+                <!-- Part 6: Interview / Coaching Questions (was Part 4) -->
+                <section id="report-part6" class="report-section">
+                    <h2 id="part6-title" class="section-title" data-i18n="report_part6_title">PHẦN 6: CÂU HỎI PHỎNG VẤN / COACHING</h2>
+                    <p id="part6-note" class="section-note">Phân tích tự động dựa trên thuật toán chuyên gia Rạng Ngời Life.</p>
+                    <div id="report-part6-content"></div>
+                </section>
+
+                <!-- Part 7: Conclusion, Strategy, Roadmap & Team Pairing (was Part 5) -->
+                <section id="report-part7" class="report-section">
+                    <h2 class="section-title" data-i18n="report_part7_title">PHẦN 7: KẾT LUẬN, CHIẾN LƯỢC & LềETRÌNH 30-60-90</h2>
+                    <div id="report-part7-content"></div>
+                </section>
+
+                <!-- Part 8: Consistency Score -->
+                <section id="report-consistency" class="report-section">
+                    <h2 class="section-title" data-i18n="report_consistency_title">ĐỘ TIN CẬY BÀI ĐÁNH GIÁ</h2>
+                    <div id="report-consistency-content"></div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- SCREEN 4: HR DASHBOARD                       -->
+    <!-- ============================================ -->
+    <div id="screen-hr-dashboard" class="screen">
+        <div class="container wide">
+            <header class="dashboard-header">
+                <div class="dashboard-title">
+                    <h2 data-i18n="dashboard_title">📊 Dashboard Quản lý</h2>
+                    <p data-i18n="dashboard_subtitle">Lịch sử đánh giá và báo cáo nhân sự</p>
+                    <div id="firebase-status" style="margin-top: 4px; font-size: 12px;">☁️ <span style="color: var(--text-tertiary);">Cloud: Đang kết nối...</span></div>
+                </div>
+                <div class="dashboard-actions">
+                    <button id="btn-new-test" class="btn btn-primary">
+                        <span>➕</span> <span data-i18n="btn_new_test">Đánh giá mới</span>
+                    </button>
+                    <button id="btn-settings" class="btn btn-outline">
+                        <span>⚙️</span> <span data-i18n="btn_settings">Cài đặt</span>
+                    </button>
+                    <button id="btn-hr-logout" class="btn btn-outline">
+                        <span>🚪</span> <span data-i18n="btn_logout">Đăng xuất</span>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Filters & Search -->
+            <div class="dashboard-filters glass-card">
+                <div class="filter-row">
+                    <div class="search-box">
+                        <span class="search-icon">🔍</span>
+                        <input type="text" id="search-history" placeholder="Tìm theo tên..." data-i18n-placeholder="search_placeholder">
+                    </div>
+                    <select id="filter-disc" class="filter-select">
+                        <option value="" data-i18n="filter_all_disc">Tất cả nhóm DISC</option>
+                        <option value="D">D - Quyết đoán</option>
+                        <option value="I">I - Ảnh hưởng</option>
+                        <option value="S">S - Kiên định</option>
+                        <option value="C">C - Tuân thủ</option>
+                    </select>
+                    <select id="filter-industry" class="filter-select">
+                        <option value="" data-i18n="filter_all_industry">Tất cả ngành</option>
+                        <option value="dental">Nha khoa</option>
+                        <option value="fnb">F&B</option>
+                        <option value="hospitality">Lưu trú</option>
+                        <option value="general">Khác</option>
+                    </select>
+                    <select id="filter-sort" class="filter-select">
+                        <option value="newest" data-i18n="sort_newest">Mới nhất</option>
+                        <option value="oldest" data-i18n="sort_oldest">Cũ nhất</option>
+                    </select>
+                </div>
+                <div class="filter-actions">
+                    <button id="btn-compare" class="btn btn-outline btn-sm" disabled>
+                        <span data-i18n="btn_compare">So sánh đã chọn</span>
+                    </button>
+                    <button id="btn-export-history" class="btn btn-outline btn-sm">
+                        <span>💾</span> <span data-i18n="btn_export_data">Xuất dữ liệu</span>
+                    </button>
+                    <button id="btn-import-history" class="btn btn-outline btn-sm">
+                        <span>📂</span> <span data-i18n="btn_import_data">Nhập dữ liệu</span>
+                    </button>
+                    <input type="file" id="file-import" accept=".json" class="hidden">
+                </div>
+            </div>
+
+            <!-- History table -->
+            <div class="history-table-container glass-card">
+                <table id="history-table" class="history-table">
+                    <thead>
+                        <tr>
+                            <th><input type="checkbox" id="select-all-history"></th>
+                            <th data-i18n="col_name">HềEtên</th>
+                            <th data-i18n="col_position">VềEtrí</th>
+                            <th data-i18n="col_disc">DISC</th>
+                            <th data-i18n="col_archetype">Hình mẫu</th>
+                            <th data-i18n="col_consistency">ĐềEtin cậy</th>
+                            <th data-i18n="col_date">Ngày</th>
+                            <th data-i18n="col_actions">Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody id="history-tbody">
+                        <!-- Rows rendered dynamically -->
+                    </tbody>
+                </table>
+                <div id="history-empty" class="empty-state hidden">
+                    <span class="empty-icon">📭</span>
+                    <p data-i18n="history_empty">Chưa có dữ liệu đánh giá nào</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- SCREEN 5: COMPARE CANDIDATES                 -->
+    <!-- ============================================ -->
+    <div id="screen-compare" class="screen">
+        <div class="container wide">
+            <button class="btn-back" data-target="screen-hr-dashboard">
+                <span>←</span> <span data-i18n="btn_back_dashboard">VềEDashboard</span>
+            </button>
+            <h2 data-i18n="compare_title">So sánh ứng viên</h2>
+            <div class="compare-position-select">
+                <label data-i18n="compare_position_label">Đánh giá phù hợp cho vềEtrí:</label>
+                <select id="compare-position" class="filter-select"></select>
+            </div>
+            <div id="compare-grid" class="compare-grid">
+                <!-- Comparison cards rendered here -->
+            </div>
+            <div id="compare-recommendation" class="compare-recommendation glass-card">
+                <!-- AI/algorithm recommendation -->
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- SCREEN 6: SETTINGS                           -->
+    <!-- ============================================ -->
+    <div id="screen-settings" class="screen">
+        <div class="container compact">
+            <button class="btn-back" data-target="screen-hr-dashboard">
+                <span>←</span> <span data-i18n="btn_back_dashboard">VềEDashboard</span>
+            </button>
+            <h2 data-i18n="settings_title">⚙︁ECài đặt</h2>
+
+            <div class="settings-section glass-card">
+                <h3 data-i18n="settings_security">🔒 Bảo mật</h3>
+                <div class="form-group">
+                    <label data-i18n="settings_change_pin">Thay đổi mã PIN</label>
+                    <input type="password" id="settings-old-pin" placeholder="PIN hiện tại" maxlength="6">
+                    <input type="password" id="settings-new-pin" placeholder="PIN mới" maxlength="6">
+                    <button id="btn-change-pin" class="btn btn-outline btn-sm" data-i18n="btn_save_pin">Lưu PIN mới</button>
+                </div>
+            </div>
+
+                <!-- AI settings removed, replaced by local Expert System -->
+
+            <div class="settings-section glass-card">
+                <h3 data-i18n="settings_data">💾 Dữ liệu</h3>
+                <div class="settings-actions">
+                    <button id="btn-export-all" class="btn btn-outline">
+                        <span>📦</span> <span data-i18n="btn_export_all">Xuất toàn bềEdữ liệu (JSON)</span>
+                    </button>
+                    <button id="btn-clear-all" class="btn btn-danger">
+                        <span>⚠️🗑️</span> <span data-i18n="btn_clear_all">Xóa toàn bộ dữ liệu</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- LOADING OVERLAY                              -->
+    <!-- ============================================ -->
+    <div id="loading-overlay" class="loading-overlay hidden">
+        <div class="loading-spinner">
+            <div class="spinner-ring"></div>
+            <p id="loading-text" data-i18n="loading">Đang xử lý...</p>
+        </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- TOAST NOTIFICATIONS                          -->
+    <!-- ============================================ -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- ============================================ -->
+    <!-- CONFIRM DIALOG                               -->
+    <!-- ============================================ -->
+    <div id="confirm-dialog" class="modal-overlay hidden">
+        <div class="modal-card glass-card">
+            <h3 id="confirm-title"></h3>
+            <p id="confirm-message"></p>
+            <div class="modal-actions">
+                <button id="confirm-cancel" class="btn btn-outline" data-i18n="btn_cancel">Hủy</button>
+                <button id="confirm-ok" class="btn btn-primary" data-i18n="btn_confirm">Xác nhận</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JS Modules -->
+    <script src="js/i18n.js?v=20260723"></script>
+    <script src="js/questions.js?v=20260723"></script>
+    <script src="js/scoring.js?v=20260723"></script>
+    <script src="js/profiles.js?v=20260723"></script>
+    <script src="js/interview.js?v=20260723"></script>
+    <script src="js/chart-render.js?v=20260723"></script>
+    <script src="js/report.js?v=20260723"></script>
+    <script src="js/pdf.js?v=20260723"></script>
+    <script src="js/storage.js?v=20260723"></script>
+    <script src="js/expert-db.js?v=20260723"></script>
+    <script src="js/ai.js?v=20260723"></script>
+    <!-- Firebase SDK (compat for non-module) -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+    <script src="js/firebase-db.js?v=20260723"></script>
+    <script src="js/app.js?v=20260723"></script>
+</body>
+</html>
