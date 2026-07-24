@@ -13,21 +13,42 @@ const PDFExporter = {
         // 1. Prepare: add print-mode class to body
         document.body.classList.add('printing-pdf');
 
+        // Fix for Chart.js canvas not rendering in print: Convert to Image
+        const canvas = document.getElementById('chart-report');
+        let img = null;
+        if (canvas) {
+            try {
+                img = document.createElement('img');
+                img.src = canvas.toDataURL('image/png');
+                img.id = 'chart-print-img';
+                img.style.width = '100%';
+                img.style.maxWidth = '600px';
+                img.style.margin = '0 auto';
+                img.style.display = 'block';
+                
+                canvas.style.display = 'none';
+                canvas.parentNode.insertBefore(img, canvas);
+            } catch (e) {
+                console.error("Canvas to image conversion failed", e);
+            }
+        }
+
         // 2. Small delay to let browser re-render with print styles
         setTimeout(() => {
             window.print();
 
             // 3. Clean up after print dialog closes
-            // Some browsers fire 'afterprint', some don't, so we also use a timeout fallback
             const cleanup = () => {
                 document.body.classList.remove('printing-pdf');
+                if (canvas && img) {
+                    canvas.style.display = '';
+                    if (img.parentNode) img.parentNode.removeChild(img);
+                }
             };
 
             window.addEventListener('afterprint', cleanup, { once: true });
-
-            // Fallback cleanup after 3 seconds
             setTimeout(cleanup, 3000);
-        }, 300);
+        }, 500);
     },
 
     showLoading(show) {
