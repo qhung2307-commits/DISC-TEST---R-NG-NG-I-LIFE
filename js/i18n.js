@@ -29,7 +29,7 @@ const I18N = {
             // Auth
             hr_auth_title: 'Xác thực quyền truy cập',
             hr_auth_desc: 'Nhập mã PIN quản lý để truy cập báo cáo và lịch sử đánh giá',
-            pin_hint: 'Mã PIN mặc định: 123456 (thay đổi trong Cài đặt)',
+            pin_hint: 'Vui lòng nhập mã PIN quản lý để tiếp tục',
             btn_login: 'Đăng nhập',
             pin_error: 'Mã PIN không chính xác',
             // Info form

@@ -12,7 +12,7 @@ const Storage = {
         SESSION: 'disc_session' // temp session during test
     },
 
-    DEFAULT_PIN: '123456',
+    DEFAULT_PIN: '262300',
 
     // ---- History CRUD ----
     getHistory() {
