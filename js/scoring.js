@@ -128,13 +128,15 @@ const DISCScoring = {
 
         if (consistencyPairs && consistencyPairs.length > 0) {
             consistencyPairs.forEach(pair => {
-                const a1 = answers.find(a => a.questionId === pair.q1);
-                const a2 = answers.find(a => a.questionId === pair.q2);
+                const q1Id = pair.questions ? pair.questions[0] : pair.q1;
+                const q2Id = pair.questions ? pair.questions[1] : pair.q2;
+                const a1 = answers.find(a => a.questionId === q1Id);
+                const a2 = answers.find(a => a.questionId === q2Id);
 
                 if (a1 && a2) {
                     pairsChecked++;
-                    const q1 = DISC_QUESTIONS.find(q => q.id === pair.q1);
-                    const q2 = DISC_QUESTIONS.find(q => q.id === pair.q2);
+                    const q1 = DISC_QUESTIONS.find(q => q.id === q1Id);
+                    const q2 = DISC_QUESTIONS.find(q => q.id === q2Id);
 
                     if (q1 && q2) {
                         // Check if the MOST choice maps to the same DISC group
